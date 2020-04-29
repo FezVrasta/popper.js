@@ -2,9 +2,6 @@ name: Unit Tests
 
 on: [push, pull_request]
 
-env:
-  CI: true
-
 jobs:
   checks:
     runs-on: ubuntu-latest
@@ -34,14 +31,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: mujo-code/puppeteer-headful@master
+      - uses: CultureHQ/actions-yarn@master
         with:
-          args: yarn
+          args: install
       - name: TypeScript
-        uses: mujo-code/puppeteer-headful@master
+        uses: CultureHQ/actions-yarn@master
         with:
-          args: yarn build:bundles
+          args: build:bundles
       - name: Run Jest Unit Tests
-        uses: mujo-code/puppeteer-headful@master
+        uses: CultureHQ/actions-yarn@master
         with:
-          args: yarn test:unit
+          args: test:unit

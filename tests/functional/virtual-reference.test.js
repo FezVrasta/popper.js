@@ -1,11 +1,10 @@
 /**
- * @jest-environment puppeteer
+ * @jest-environment jest-playwright-preset
  * @flow
  */
-import { scroll, screenshot } from '../utils/puppeteer.js';
+import { scroll, screenshot } from '../utils/playwright.js';
 
 it('should follow the cursor', async () => {
-  const page = await browser.newPage();
   await page.goto(`${TEST_URL}/virtual-reference.html`);
 
   await scroll(page, '#scroll', 200);

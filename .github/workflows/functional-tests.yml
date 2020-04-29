@@ -2,7 +2,6 @@ name: Functional Tests
 on: [push, pull_request]
 env:
   CI: true
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
 
 jobs:
   functional-chromium:
@@ -10,11 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: CultureHQ/actions-yarn@master
-        with:
-          args: install
-      - uses: mujo-code/puppeteer-headful@master
-        with:
-          args: yarn test:functional
+      - uses: actions/setup-node@v1
+      - uses: microsoft/playwright-github-action@v1
+      - run: yarn -s && yarn test:functional --runInBand
         env:
-          PUPPETEER_BROWSER: chromium
+          BROWSER: chromium
+          DEBUG: pw:browser
+
+  functional-firefox:
+    name: Firefox Functional Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - uses: microsoft/playwright-github-action@v1
+      - run: yarn -s && yarn test:functional --runInBand
+        env:
+          BROWSER: firefox
+          DEBUG: pw:browser
+
+  functional-webkit:
+    name: WebKit Functional Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - uses: microsoft/playwright-github-action@v1
+      - run: yarn -s && yarn test:functional --runInBand
+        env:
+          BROWSER: webkit
+          DEBUG: pw:browser
